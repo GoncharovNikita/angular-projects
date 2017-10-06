@@ -1,7 +1,16 @@
-<button class="btn btn-primary green navbar-btn"
-        (click)="toggle()">
-  Добавить продукт
-</button>
+<form class="navbar-form navbar-left">
+  <div class="form-group">
+    <input type="text" class="form-control"
+    placeholder="Название продукта"
+    [value]="name"
+    (input)="name=$event.target.value">
+  </div>
+  <button class="btn btn-primary navbar-btn"
+          type="button"
+          (click)="toggle()">
+    Добавить
+  </button>
+</form>
 <!-- Modal -->
 <div class="col-xs-6 col-md-4 col-lg-4" 
      id="addProductModal" 

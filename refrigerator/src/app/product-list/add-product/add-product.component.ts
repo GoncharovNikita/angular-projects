@@ -73,8 +73,20 @@ export class AddProductComponent {
         this.name = '';
         this.createdAt = '';
         this.shelfLife = '';
-        this.movedToRefrigeratorAt = '';
+        this.movedToRefrigeratorAt = this.getDate();
         this.isActive = false;
+    }
+
+    getDate(): string {
+        const date = new Date();
+        const year  = date.getFullYear().toString();
+        let month = (date.getMonth() + 1).toString();
+        if (month.toString().length === 1) { month = '0' + month.toString(); }
+        let day = (date.getDay() + 1).toString();
+        if (day.toString().length === 1) { day = '0' + day.toString(); }
+        const result = `${year}-${month}-${day}`;
+        console.log(result);
+        return result;
     }
 
 }
