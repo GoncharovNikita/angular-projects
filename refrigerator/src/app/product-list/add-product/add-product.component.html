@@ -1,41 +1,52 @@
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary navbar-btn navbar-right" data-toggle="modal" data-target="#myModal">
-    Добавить продукт
+<button class="btn btn-primary green navbar-btn"
+        (click)="toggle()">
+  Добавить продукт
 </button>
-
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Новый продукт</h4>
-      </div>
-      <div class="modal-body">
-          <!-- Body -->
-        <div class="input-group">
-          <span class="input-group-addon" id="name-addon">Название</span>
-          <input type="text" class="form-control" area-describedby="name-addon" (input)="name=$event.target.value" [value]="name">
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon" id="created-at-addon">Дата изготовления</span>
-          <input type="text" class="form-control" area-describedby="created-at-addon" (input)="createdAt=$event.target.value" [value]="createdAt">
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon" id="shelflife-addon">Срок годности</span>
-          <input type="text" class="form-control" area-describedby="shelflife-addon" (input)="shelfLife=$event.target.value" [value]="shelfLife">
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon" id="moved-addon">Убран в холодильник</span>
-          <input type="text" class="form-control" area-describedby="moved-addon" (input)="movedToRefrigeratorAt=$event.target.value"
-            [value]="movedToRefrigeratorAt">
-        </div>
-        <!-- /Body -->
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-        <button type="button" class="btn btn-primary" (click)="createProduct()">Добавить</button>
-      </div>
+<div class="col-xs-6 col-md-4 col-lg-4" 
+     id="addProductModal" 
+     *ngIf="isActive">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      Новый продукт
     </div>
+    <!-- Body -->
+    <div class="panel-body">
+      <div class="new-product-input-group">
+          <label for="nameInput">Название</label>
+          <input type="text" id="nameInput"
+          (input)="name=$event.target.value" 
+          [value]="name"
+          (keyup.enter)="createProduct()"
+          [redOutline]="!isNameValid">
+        </div>
+        <div class="new-product-input-group">
+            <label for="nameInput">Дата изготовления</label>
+          <input type="date"
+          (input)="createdAt=$event.target.value" 
+          [value]="createdAt"
+          (keyup.enter)="createProduct()"
+          [redOutline]="!isCreatedAtValid">
+        </div>
+        <div class="new-product-input-group">
+            <label for="nameInput">Срок годности</label>
+          <input type="date"
+          (input)="shelfLife=$event.target.value" 
+          [value]="shelfLife"
+          (keyup.enter)="createProduct()"
+          [redOutline]="!isShelfLifeValid">
+        </div>
+        <div class="new-product-input-group">
+            <label for="nameInput">Убран в холодильник</label>
+          <input type="date"  
+            (input)="movedToRefrigeratorAt=$event.target.value"
+            [value]="movedToRefrigeratorAt"
+            (keyup.enter)="createProduct()"
+            [redOutline]="!isMovedValid">
+        </div>
+    </div>
+    <!-- /Body -->
   </div>
 </div>
+
+

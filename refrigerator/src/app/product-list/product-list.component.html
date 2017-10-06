@@ -1,6 +1,7 @@
-<ul *ngFor="let product of products">
-    <li>
-        <p>Продукт - {{ product.name }}</p>
+<ul *ngFor="let product of products"
+    class="list-group">
+    <li class="list-group-item">
+        <h3 class="list-group-item-heading">{{ product.name }}</h3>
         <p>Изготовлен - {{ product.createdAt }}</p>
         <p>Срок годности - {{ product.shelfLife }}</p>
         <p>В холодильнике с {{ product.movedToRefrigeratorAt }}</p>

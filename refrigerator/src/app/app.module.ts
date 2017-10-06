@@ -12,9 +12,13 @@ import { HttpModule } from '@angular/http';
 // Services import
 import { ProductService } from './product-list/product.service';
 
+// Directives import
+import { RedOutlineDirective } from './red-outline.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
+    RedOutlineDirective,
     ProductListComponent,
     AddProductComponent
   ],
