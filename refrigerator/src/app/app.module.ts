@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 
 // Services import
 import { ProductService } from './product-list/product.service';
+import { AddProductService } from './product-list/add-product/add-product.service';
 
 // Directives import
 import { RedOutlineDirective } from './red-outline.directive';
@@ -27,7 +28,8 @@ import { RedOutlineDirective } from './red-outline.directive';
     HttpModule
   ],
   providers: [
-    ProductService
+    ProductService,
+    AddProductService
   ],
   bootstrap: [AppComponent]
 })
