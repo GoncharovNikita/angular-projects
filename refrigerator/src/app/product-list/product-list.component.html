@@ -1,0 +1,8 @@
+<ul *ngFor="let product of products">
+    <li>
+        <p>Продукт - {{ product.name }}</p>
+        <p>Изготовлен - {{ product.createdAt }}</p>
+        <p>Срок годности - {{ product.shelfLife }}</p>
+        <p>В холодильнике с {{ product.movedToRefrigeratorAt }}</p>
+    </li>
+</ul>

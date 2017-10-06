@@ -1,0 +1,10 @@
+<h1>Todo list.</h1>
+<input type="text" (input) = "newTodoText = $event.target.value">
+<button (click)="addTodo()">Add todo</button>
+
+<ul *ngFor="let todo of todos">
+  <li>{{ todo.message }}</li>
+  <button (click) = "editTodoText(todo)">Edit</button>
+  <input type="text" [hidden] = "!(editingTodo === todo)" (input) = "todo.message = $event.target.value">
+</ul>
+
