@@ -4,7 +4,10 @@ import { IProduct, Product } from '../product';
 
 @Component({
     selector: 'app-show-product',
-    templateUrl: './show-product.component.html'
+    templateUrl: './show-product.component.html',
+    styleUrls: [
+        './show-product.component.sass'
+    ]
 })
 export class ShowProductComponent implements OnInit {
     product: IProduct;
@@ -23,5 +26,10 @@ export class ShowProductComponent implements OnInit {
                 }
             }
         });
+    }
+
+    removeProduct(product: IProduct) {
+        console.log('Removing', product);
+        this.productService.removeProduct(product);
     }
 }

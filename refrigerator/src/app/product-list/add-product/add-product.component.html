@@ -3,23 +3,35 @@
     <input type="text" class="form-control"
     placeholder="Название продукта"
     [value]="name"
+    (focus)="addFocused()"
+    (focusout)="removeFocused()"
     (input)="name=$event.target.value"
     (keyup.enter)="createProduct(); return">
-    <input type="date" class="form-control"
-    placeholder="Срок годности"
-    [value]="shelfLife"
-    (input)="shelfLife=$event.target.value"
-    (keyup.enter)="createProduct(); return">
-    <input type="date" class="form-control"
-    placeholder="Изготовлено"
-    [value]="createdAt"
-    (input)="createdAt=$event.target.value"
-    (keyup.enter)="createProduct(); return">
-    <input type="date" class="form-control"
-    placeholder="Убран в холодильник"
-    [value]="movedToRefrigeratorAt"
-    (input)="movedToRefrigeratorAt=$event.target.value"
-    (keyup.enter)="createProduct(); return">
+    <ng-container *ngIf="expanded">
+      <!-- If expanded -->
+      <input type="date" class="form-control"
+      placeholder="Срок годности"
+      [value]="shelfLife"
+      (input)="shelfLife=$event.target.value"
+      (keyup.enter)="createProduct(); return"
+      (focus)="addFocused()"
+      (focusout)="removeFocused()">
+      <input type="date" class="form-control"
+      placeholder="Изготовлено"
+      [value]="createdAt"
+      (input)="createdAt=$event.target.value"
+      (keyup.enter)="createProduct(); return"
+      (focus)="addFocused()"
+      (focusout)="removeFocused()">
+      <input type="date" class="form-control"
+      placeholder="Убран в холодильник"
+      [value]="movedToRefrigeratorAt"
+      (input)="movedToRefrigeratorAt=$event.target.value"
+      (keyup.enter)="createProduct(); return"
+      (focus)="addFocused()"
+      (focusout)="removeFocused()">
+    </ng-container>
+    
   </div>
   <!-- <button class="btn btn-primary navbar-btn"
           type="button"

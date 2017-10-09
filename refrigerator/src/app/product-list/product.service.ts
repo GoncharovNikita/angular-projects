@@ -5,10 +5,29 @@ import { Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class ProductService {
-    products: Array<IProduct> = new Array();
+    private _products: Array<IProduct> = new Array();
     product = new Subject();
     set selectedProduct(product: IProduct) {
         this.product.next(product);
+    }
+
+    get products() {
+        return this._products;
+    }
+
+    addProduct(product: IProduct) {
+        this._products.push(product);
+    }
+
+    removeProduct(product: IProduct) {
+        const index = this._products.indexOf(product);
+        const length = this._products.length;
+        if (index === -1) { throw new Error('No such product'); }
+        const preArr = this._products.slice(0, index);
+        const postArr = this._products.slice(index + 1, length);
+        console.log(preArr, postArr, index);
+        this._products = preArr.concat(postArr);
+        console.log(this._products);
     }
 
     constructor(private http: Http) {
@@ -32,7 +51,7 @@ export class ProductService {
                     result.push(__prod);
                 }
             });
-        this.products = result;
+        this._products = result;
 
         return result;
     }

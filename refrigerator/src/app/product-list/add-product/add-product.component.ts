@@ -21,6 +21,19 @@ export class AddProductComponent {
     isShelfLifeValid = true;
     isMovedValid     = true;
     timeout;
+    expanded = false;
+    private _focusedCount = 0;
+    set focusedCount (value: number) {
+        this._focusedCount = value;
+        if (this._focusedCount <= 0) {
+            this.expanded = false;
+        } else {
+            this.expanded = true;
+        }
+    }
+    get focusedCount () {
+        return this._focusedCount;
+    }
 
     constructor(private productService: ProductService,
                 private addProductService: AddProductService) {
@@ -48,7 +61,7 @@ export class AddProductComponent {
         if (this.timeout) { clearTimeout(this.timeout); }
         this.validate();
         if (this.isAllValid) {
-            this.productService.products.push(new Product(
+            this.productService.addProduct(new Product(
                 this.name,
                 this.shelfLife,
                 this.createdAt,
@@ -72,6 +85,20 @@ export class AddProductComponent {
         this.shelfLife = '';
         this.movedToRefrigeratorAt = this.getDate();
         this.isActive = false;
+    }
+
+    addFocused() {
+        this.focusedCount++;
+    }
+
+    removeFocused() {
+        if (this.focusedCount > 1) {
+            this.focusedCount--;
+        } else {
+            setTimeout(() => {
+                this.focusedCount--;
+            }, 50);
+        }
     }
 
     getDate(): string {
