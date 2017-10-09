@@ -1,0 +1,10 @@
+<!-- Show product -->
+<div *ngIf="active">
+    <li class="list-group-item">
+        <h3 class="list-group-item-heading">{{ product.name }}</h3>
+        <p>Изготовлен - {{ product.createdAt }}</p>
+        <p>Срок годности - {{ product.shelfLife }}</p>
+        <p>В холодильнике с {{ product.movedToRefrigeratorAt }}</p>
+    </li>
+</div>
+<!-- /Show product -->

@@ -1,15 +1,31 @@
-<form class="navbar-form navbar-left">
+<form class="navbar-left">
   <div class="form-group">
     <input type="text" class="form-control"
     placeholder="Название продукта"
     [value]="name"
-    (input)="name=$event.target.value">
+    (input)="name=$event.target.value"
+    (keyup.enter)="createProduct(); return">
+    <input type="date" class="form-control"
+    placeholder="Срок годности"
+    [value]="shelfLife"
+    (input)="shelfLife=$event.target.value"
+    (keyup.enter)="createProduct(); return">
+    <input type="date" class="form-control"
+    placeholder="Изготовлено"
+    [value]="createdAt"
+    (input)="createdAt=$event.target.value"
+    (keyup.enter)="createProduct(); return">
+    <input type="date" class="form-control"
+    placeholder="Убран в холодильник"
+    [value]="movedToRefrigeratorAt"
+    (input)="movedToRefrigeratorAt=$event.target.value"
+    (keyup.enter)="createProduct(); return">
   </div>
-  <button class="btn btn-primary navbar-btn"
+  <!-- <button class="btn btn-primary navbar-btn"
           type="button"
-          (click)="toggle()">
+          (click)="createProduct()">
     Добавить
-  </button>
+  </button> -->
 </form>
 <!-- Modal -->
 <div class="col-xs-6 col-md-4 col-lg-4" 

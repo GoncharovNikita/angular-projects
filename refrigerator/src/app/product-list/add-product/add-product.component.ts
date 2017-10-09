@@ -8,9 +8,6 @@ import { AddProductService } from './add-product.service';
     templateUrl: './add-product.component.html',
     styleUrls: [
         './add-product.component.sass'
-    ],
-    providers: [
-        AddProductService
     ]
 })
 export class AddProductComponent {
@@ -82,7 +79,7 @@ export class AddProductComponent {
         const year  = date.getFullYear().toString();
         let month = (date.getMonth() + 1).toString();
         if (month.toString().length === 1) { month = '0' + month.toString(); }
-        let day = (date.getDay() + 1).toString();
+        let day = (date.getDate()).toString();
         if (day.toString().length === 1) { day = '0' + day.toString(); }
         const result = `${year}-${month}-${day}`;
         console.log(result);

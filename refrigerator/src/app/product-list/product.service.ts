@@ -1,10 +1,15 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { IProduct, Product } from './product';
+import { Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class ProductService {
     products: Array<IProduct> = new Array();
+    product = new Subject();
+    set selectedProduct(product: IProduct) {
+        this.product.next(product);
+    }
 
     constructor(private http: Http) {
         console.log('Product service constructed');
