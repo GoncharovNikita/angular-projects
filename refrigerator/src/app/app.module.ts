@@ -3,16 +3,16 @@ import { NgModule } from '@angular/core';
 
 // Components import
 import { AppComponent } from './app.component';
-import { ProductListComponent } from './product-list/product-list.component';
-import { AddProductComponent } from './product-list/add-product/add-product.component';
-import { ShowProductComponent } from './product-list/show-product/show-product.component';
+import { ProductListComponent } from './product/list/list.component';
+import { AddProductComponent } from './product/add/add.component';
 
 // Modules import
 import { HttpModule } from '@angular/http';
+import { MyMaterialModule } from './my-material.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 // Services import
-import { ProductService } from './product-list/product.service';
-import { AddProductService } from './product-list/add-product/add-product.service';
+import { ProductService } from './product/product.service';
 
 // Directives import
 import { RedOutlineDirective } from './red-outline.directive';
@@ -22,16 +22,17 @@ import { RedOutlineDirective } from './red-outline.directive';
     AppComponent,
     RedOutlineDirective,
     ProductListComponent,
-    AddProductComponent,
-    ShowProductComponent
+    AddProductComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    MyMaterialModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
-    ProductService,
-    AddProductService
+    ProductService
   ],
   bootstrap: [AppComponent]
 })

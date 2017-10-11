@@ -1,0 +1,16 @@
+<form 
+[formGroup]="fGroup"
+(ngSubmit)="addProduct(fGroup.value)" >
+    <mat-form-field>
+        <input matInput placeholder="Название" formControlName="name" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Срок годности" formControlName="shelfLife" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Изготовлено" formControlName="created" >
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Убран в холодильник с" formControlName="movedToRef" >
+    </mat-form-field>
+</form>
