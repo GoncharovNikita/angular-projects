@@ -15,7 +15,7 @@ export class AddProductComponent implements OnInit {
 
     ngOnInit() {
         this.fGroup = this.fb.group({
-            name: [ 'Колбаса', Validators.required ],
+            name: [ '', Validators.required ],
             created: [ this.getDayRelativeToNow(-1), Validators.required ],
             shelfLife: [ this.getDayRelativeToNow(1), Validators.required ],
             movedToRef: [ this.getDayRelativeToNow(), Validators.required ]
@@ -26,6 +26,7 @@ export class AddProductComponent implements OnInit {
         return `${new Date().getFullYear()}-${ new Date().getMonth() + 1 }-${new Date().getDate() + move}`;
     }
     addProduct(product: IProduct) {
+        if (!this.fGroup.valid) { return; }
         this.productService.addProduct(new Product({
             name: product.name,
             created: product.created,

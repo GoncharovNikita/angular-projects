@@ -6,19 +6,19 @@
     </mat-form-field>
     <mat-form-field>
         <input matInput 
-        [matDatepicker]="picker" placeholder="Срок годности" formControlName="shelfLife" >
+        [matDatepicker]="shelfPicker" placeholder="Срок годности" formControlName="shelfLife" >
         <mat-datepicker-toggle matSuffix [for]="shelfPicker"></mat-datepicker-toggle>
         <mat-datepicker #shelfPicker></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
         <input matInput 
-        [matDatepicker]="picker" placeholder="Изготовлено" formControlName="created" >
+        [matDatepicker]="createdPicker" placeholder="Изготовлено" formControlName="created" >
         <mat-datepicker-toggle matSuffix [for]="createdPicker"></mat-datepicker-toggle>
         <mat-datepicker #createdPicker></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
         <input matInput 
-        [matDatepicker]="picker" placeholder="Убран в холодильник" formControlName="movedToRef" >
+        [matDatepicker]="movedPicker" placeholder="Убран в холодильник" formControlName="movedToRef" >
         <mat-datepicker-toggle matSuffix [for]="movedPicker"></mat-datepicker-toggle>
         <mat-datepicker #movedPicker></mat-datepicker>
     </mat-form-field>
