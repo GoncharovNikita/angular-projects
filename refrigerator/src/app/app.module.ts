@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './product/list/list.component';
 import { AddProductComponent } from './product/add/add.component';
+import { SelectProductComponent } from './product/select/select.component';
 
 // Modules import
 import { HttpModule } from '@angular/http';
@@ -22,7 +23,8 @@ import { RedOutlineDirective } from './red-outline.directive';
     AppComponent,
     RedOutlineDirective,
     ProductListComponent,
-    AddProductComponent
+    AddProductComponent,
+    SelectProductComponent
   ],
   imports: [
     BrowserModule,

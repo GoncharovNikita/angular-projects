@@ -1,28 +1,37 @@
-<form 
-[formGroup]="fGroup"
-(ngSubmit)="addProduct(fGroup.value)" >
-    <mat-form-field>
-        <input matInput placeholder="Название" formControlName="name" >
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput 
-        [matDatepicker]="shelfPicker" placeholder="Срок годности" formControlName="shelfLife" >
-        <mat-datepicker-toggle matSuffix [for]="shelfPicker"></mat-datepicker-toggle>
-        <mat-datepicker #shelfPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput 
-        [matDatepicker]="createdPicker" placeholder="Изготовлено" formControlName="created" >
-        <mat-datepicker-toggle matSuffix [for]="createdPicker"></mat-datepicker-toggle>
-        <mat-datepicker #createdPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-        <input matInput 
-        [matDatepicker]="movedPicker" placeholder="Убран в холодильник" formControlName="movedToRef" >
-        <mat-datepicker-toggle matSuffix [for]="movedPicker"></mat-datepicker-toggle>
-        <mat-datepicker #movedPicker></mat-datepicker>
-    </mat-form-field>
-    <div>
-        <button mat-raised-button color="primary" >Добавить</button>
+<div class="panel panel-default">
+    <!-- Body -->
+    <div class="panel-heading">
+        Добавить новый продукт в список
     </div>
-</form>
+    <div class="panel-body">
+        <form 
+        [formGroup]="fGroup"
+        (ngSubmit)="addProduct(fGroup.value)" >
+            <mat-form-field>
+                <input matInput placeholder="Название" formControlName="name" >
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput 
+                [matDatepicker]="shelfPicker" placeholder="Срок годности" formControlName="shelfLife" >
+                <mat-datepicker-toggle matSuffix [for]="shelfPicker"></mat-datepicker-toggle>
+                <mat-datepicker #shelfPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput 
+                [matDatepicker]="createdPicker" placeholder="Изготовлено" formControlName="created" >
+                <mat-datepicker-toggle matSuffix [for]="createdPicker"></mat-datepicker-toggle>
+                <mat-datepicker #createdPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput 
+                [matDatepicker]="movedPicker" placeholder="Убран в холодильник" formControlName="movedToRef" >
+                <mat-datepicker-toggle matSuffix [for]="movedPicker"></mat-datepicker-toggle>
+                <mat-datepicker #movedPicker></mat-datepicker>
+            </mat-form-field>
+            <div>
+                <button mat-raised-button color="primary" >Добавить</button>
+            </div>
+        </form>
+    </div>
+    <!-- /Body -->
+</div>

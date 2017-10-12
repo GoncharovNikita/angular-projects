@@ -1,3 +1,14 @@
-<ng-container *ngFor="let product of products">
-    <mat-card>{{ product.name }}</mat-card>
-</ng-container>
+<ul class="list-group" *ngIf="products.length > 0; else infoForm">
+    <ng-container *ngFor="let product of products">
+        <a href="#" class="list-group-item"
+        (click)="select(product)"
+        [ngClass]=" {'active': selectedProduct === product } "
+        >{{ product.name }}</a>
+    </ng-container>
+</ul>
+
+<ng-template #infoForm>
+    <div  class="alert alert-info" role="alert">
+        <p>В вашем списке нет продуктов!</p>
+    </div>
+</ng-template>
