@@ -1,14 +1,14 @@
 <ng-container *ngIf="product">
-    <div class="panel panel-warning">
-        <div class="panel-heading">
+    <div class="card card-warning">
+        <div class="card-header">
             {{ product.name }}
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             <p>Изготовлен: {{ product.created }}</p>
             <p>Срок годности: {{ product.shelfLife }}</p>
             <p>Убран в холодильник: {{ product.movedToRef }}</p>
         </div>
-        <div class="panel-footer"
+        <div class="card-footer"
         (click)="remove(product)"
         >
             Убрать из списка

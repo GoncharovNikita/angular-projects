@@ -1,5 +1,5 @@
-<ul class="list-group" *ngIf="products.length > 0; else infoForm">
-    <ng-container *ngFor="let product of products">
+<ul class="list-group" >
+    <ng-container *ngFor="let product of products | async">
         <a href="#" class="list-group-item"
         (click)="select(product)"
         [ngClass]=" {'active': selectedProduct === product } "
@@ -7,8 +7,8 @@
     </ng-container>
 </ul>
 
-<ng-template #infoForm>
+<ng-container *ngIf="isProductsListEmpty" >
     <div  class="alert alert-info" role="alert">
         <p>В вашем списке нет продуктов!</p>
     </div>
-</ng-template>
+</ng-container>

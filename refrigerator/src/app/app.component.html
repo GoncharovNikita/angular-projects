@@ -2,23 +2,11 @@
     <h1 id="title">Refrigerator control</h1>
     <div class="row">
         <div class="col-sm-6 col-xs-6">
-  
+            <app-auth></app-auth>
         </div>
     </div>
 </mat-toolbar>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6 col-xs-6 col-md-4 col-lg-4">
-            <app-product-list></app-product-list>
-        </div>
-        <div class="col-sm-6 col-xs-6 col-md-4 col-lg-4">
-            <app-select-product></app-select-product>
-        </div>
-        <div class="col-sm-6 col-xs-6 col-md-4 col-lg-4">
-            <app-add-product></app-add-product>
-        </div>
-    </div>
-</div>
+<router-outlet></router-outlet>
 
 
 

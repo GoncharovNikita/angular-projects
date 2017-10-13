@@ -28,6 +28,7 @@ export class AddProductComponent implements OnInit {
     addProduct(product: IProduct) {
         if (!this.fGroup.valid) { return; }
         this.productService.addProduct(new Product({
+            key: product.key,
             name: product.name,
             created: product.created,
             shelfLife: product.shelfLife,
