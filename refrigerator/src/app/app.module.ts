@@ -54,9 +54,7 @@ const routes: Routes = [
     FormsModule,
     ProductModule,
     RouterModule.forRoot(
-      routes, {
-        enableTracing: true 
-      }
+      routes
     ),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

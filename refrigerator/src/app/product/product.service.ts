@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 import { IProduct } from './product';
 import {
     AngularFireDatabase,
     AngularFireList
 } from 'angularfire2/database';
+import { AccountService } from '../accounting/account.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
@@ -18,17 +20,28 @@ export class ProductService {
     private productsFlow: Subject<IProduct> = new Subject();
     private _selectedProduct: IProduct;
     private _productsRef: AngularFireList<IProduct>;
+    private subscriptions: Array<Subscription> = new Array();
     products: Subject<Array<IProduct>> = new Subject();
     selectedProduct: Subject<IProduct> = new Subject();
 
     constructor(private http: Http,
-        private afd: AngularFireDatabase) {
+        private afd: AngularFireDatabase,
+        private accService: AccountService) {
         this._productsRef = this.afd.list('products');
-        this.addSubscribtions();
+        this.addSubscriptions();
+        this.accService.authState.subscribe(state => {
+            if (!state) {
+                this.deleteSubscribtions();
+            } else {
+                if (this.subscriptions.length === 0) {
+                    this.addSubscriptions();
+                }
+            }
+        });
     }
 
-    addSubscribtions() {
-        this._productsRef.snapshotChanges()
+    addSubscriptions() {
+        this.subscriptions.push(this._productsRef.snapshotChanges()
             .map(val => {
                 return(
                     val.map(changes => {
@@ -38,14 +51,20 @@ export class ProductService {
             })
             .subscribe(val => {
                 this.products.next(val);
-            });
-        this.productsFlow.subscribe(product => {
-
-        });
-        this.selectedProduct
+            }));
+        this.subscriptions.push(
+            this.selectedProduct
             .subscribe(product => {
                 this._selectedProduct = product;
-            });
+            })
+        );
+    }
+
+    deleteSubscribtions() {
+        this.subscriptions.map(s => {
+            s.unsubscribe();
+            this.subscriptions = this.subscriptions.slice(1, this.subscriptions.length);
+        });
     }
 
     addProduct(product: IProduct) {

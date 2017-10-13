@@ -34,4 +34,8 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  logout() {
+    this.accService.auth.signOut();
+  }
 }
