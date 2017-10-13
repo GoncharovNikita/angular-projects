@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ProductsComponent } from './product/products.component';
 import { AuthComponent } from './accounting/auth/auth.component';
 import { LoginComponent } from './accounting/login/login.component';
+import { RefrigeratorsComponent } from './refrigerator/refrigerators.component';
 
 // Modules import
 import { HttpModule } from '@angular/http';
@@ -16,6 +17,7 @@ import { ProductModule } from './product/product.module';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { RefrigeratorModule } from './refrigerator/refrigerator.module';
 
 // Services import
 import { ProductService } from './product/product.service';
@@ -30,7 +32,7 @@ import { environment } from '../environments/environment';
 const routes: Routes = [
   {
     path: '',
-    component: ProductsComponent
+    component: RefrigeratorsComponent
   },
   {
     path: 'login',
@@ -53,6 +55,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     ProductModule,
+    RefrigeratorModule,
     RouterModule.forRoot(
       routes
     ),

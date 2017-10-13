@@ -27,8 +27,6 @@ export class ProductService {
     constructor(private http: Http,
         private afd: AngularFireDatabase,
         private accService: AccountService) {
-        this._productsRef = this.afd.list('products');
-        this.addSubscriptions();
         this.accService.authState.subscribe(state => {
             if (!state) {
                 this.deleteSubscribtions();
@@ -41,6 +39,7 @@ export class ProductService {
     }
 
     addSubscriptions() {
+        this._productsRef = this.afd.list(`${this.accService.userId}/products`);
         this.subscriptions.push(this._productsRef.snapshotChanges()
             .map(val => {
                 return(
