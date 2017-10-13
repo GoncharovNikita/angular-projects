@@ -19,7 +19,6 @@ export class AuthComponent implements OnInit {
     ngOnInit() {
         this.authState = this.accService.authState;
         this.authState.subscribe(state => {
-            console.log(state);
         });
     }
 

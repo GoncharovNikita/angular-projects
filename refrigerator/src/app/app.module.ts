@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './product/products.component';
 import { AuthComponent } from './accounting/auth/auth.component';
+import { LoginComponent } from './accounting/login/login.component';
 
 // Modules import
 import { HttpModule } from '@angular/http';
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: '',
     component: ProductsComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 
@@ -38,7 +43,8 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     RedOutlineDirective,
-    AuthComponent
+    AuthComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,9 @@ const routes: Routes = [
     FormsModule,
     ProductModule,
     RouterModule.forRoot(
-      routes
+      routes, {
+        enableTracing: true 
+      }
     ),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

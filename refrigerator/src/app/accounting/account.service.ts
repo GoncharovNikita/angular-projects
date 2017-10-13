@@ -11,6 +11,8 @@ import 'rxjs/add/operator/map';
 export class AccountService {
     private _authState: Observable<User>;
     private _auth: Auth;
+    isLogged: Subject<boolean> = new Subject();
+
     get auth() {
         return this._auth;
     }
@@ -19,8 +21,11 @@ export class AccountService {
     }
 
     constructor(private angularFireAuth: AngularFireAuth) {
-        this._auth = this.angularFireAuth.auth;
+        this._auth      = this.angularFireAuth.auth;
         this._authState = this.angularFireAuth.authState;
+        this._authState.subscribe(state => {
+            this.isLogged.next(state !== null);
+        });
     }
 
 }
