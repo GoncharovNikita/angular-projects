@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IRefrigerator, Refrigerator } from './refrigerator';
+import { RefrigeratorService } from './refrigerator.service';
 
 @Component({
     selector: 'app-refrigerators',
@@ -9,7 +10,9 @@ import { IRefrigerator, Refrigerator } from './refrigerator';
     ]
 })
 export class RefrigeratorsComponent implements OnInit {
-    constructor() {}
+    constructor(
+            private refService: RefrigeratorService
+    ) {}
 
     ngOnInit() {}
 }

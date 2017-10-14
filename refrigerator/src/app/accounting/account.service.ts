@@ -6,21 +6,27 @@ import { User } from 'firebase';
 import { Auth } from 'firebase/auth';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import { IRefrigerator } from '../refrigerator/refrigerator';
+import { IRefUser, RefUser } from './refrigerator.user';
 
-interface IUser {
-    refrigerators: Array<IRefrigerator>;
-    email: string;
-    displayName: string;
+export interface AccountState {
+    userRef: AngularFireList<IRefUser>;
 }
+
 
 @Injectable()
 export class AccountService {
     private _authState: Observable<User>;
     private _auth: Auth;
+    private _userState: User;
     private _userId: string;
-    private _userRef: AngularFireList<IUser>;
+    private _userRef: AngularFireList<IRefUser>;
+    private _usersRef: AngularFireList<Object>;
+    private subscriptions: Array<Subscription> = new Array();
+    private userRegisteredInDatabase = false;
+    state: Subject<AccountState> = new Subject();
     isLogged: Subject<boolean> = new Subject();
 
     get userId() {
@@ -32,17 +38,70 @@ export class AccountService {
     get authState() {
         return this._authState;
     }
+    get userRef() {
+        return this._userRef;
+    }
 
-    constructor(private angularFireAuth: AngularFireAuth,
+    constructor(
+        private angularFireAuth: AngularFireAuth,
         private afd: AngularFireDatabase) {
         this._auth      = this.angularFireAuth.auth;
         this._authState = this.angularFireAuth.authState;
+        this._usersRef  = this.afd.list('users');
         this._authState.subscribe(state => {
             if (state) {
-                this._userId = state.uid;
+                this._userState = state;
+                this._userId  = state.uid;
                 this._userRef = this.afd.list(`users/${state.uid}`);
+                if (this.subscriptions.length === 0) {
+                    this.addSubscriptions(state);
+                }
+                this.state.next({
+                    userRef: this._userRef
+                });
+            } else {
+                this.deleteSubscriptions();
+                this.state.next({
+                    userRef: undefined
+                });
             }
             this.isLogged.next(state !== null);
+        });
+    }
+
+    initializeNewUser() {
+        this._userRef.push(
+            new RefUser({
+                displayName: this._userState.displayName,
+                email: this._userState.email
+            })
+        );
+    }
+
+    addSubscriptions(state: User) {
+        this.subscriptions.push(
+            this.afd.object(`users/${state.uid}`).valueChanges().subscribe(a => {
+                if (a === null) {
+                    this.initializeNewUser();
+                }
+            })
+        );
+        this.subscriptions.push(
+            this._userRef.snapshotChanges().subscribe(userSnap => {
+                this.userRegisteredInDatabase = true;
+            })
+        );
+        this.subscriptions.push(
+            this._usersRef.snapshotChanges().subscribe(usersSnap => {
+                console.log(usersSnap);
+            })
+        );
+    }
+
+    deleteSubscriptions() {
+        this.subscriptions.map(s => {
+            s.unsubscribe();
+            this.subscriptions = this.subscriptions.slice(1, this.subscriptions.length);
         });
     }
 
