@@ -1,0 +1,8 @@
+<div class="card card-default">
+    <form 
+    [formGroup]="fGroup"
+    >
+        <input type="text" placeholder="Название" formControlName="name"
+        (keyup.enter)="addRefrigerator(fGroup.value)" >
+    </form>
+</div>

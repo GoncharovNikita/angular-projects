@@ -1,0 +1,4 @@
+<ul *ngFor="let ref of rs.refrigerators | async" >
+    <a 
+    [routerLink]="['/refrigerator', ref.id]" > {{ ref.name }} </a>
+</ul>

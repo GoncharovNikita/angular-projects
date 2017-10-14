@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import { IRefrigerator } from '../refrigerator/refrigerator';
-import { IRefUser, RefUser } from './refrigerator.user';
+import { IRefUser, RefUser, UserQuery } from './refrigerator.user';
 
 export interface AccountState {
     userRef: AngularFireList<IRefUser>;
@@ -22,7 +22,7 @@ export class AccountService {
     private _auth: Auth;
     private _userState: User;
     private _userId: string;
-    private _userRef: AngularFireList<IRefUser>;
+    private _userRef: AngularFireList<UserQuery>;
     private _usersRef: AngularFireList<Object>;
     private subscriptions: Array<Subscription> = new Array();
     private userRegisteredInDatabase = false;
@@ -40,6 +40,9 @@ export class AccountService {
     }
     get userRef() {
         return this._userRef;
+    }
+    get userState() {
+        return this._userState;
     }
 
     constructor(
@@ -72,10 +75,15 @@ export class AccountService {
     initializeNewUser() {
         this._userRef.push(
             new RefUser({
+                key: this._userState.uid,
                 displayName: this._userState.displayName,
                 email: this._userState.email
             })
         );
+    }
+
+    updateUser(params: UserQuery) {
+        this._userRef.update(this._userState['key'], params);
     }
 
     addSubscriptions(state: User) {
@@ -88,12 +96,12 @@ export class AccountService {
         );
         this.subscriptions.push(
             this._userRef.snapshotChanges().subscribe(userSnap => {
-                this.userRegisteredInDatabase = true;
+                this._userState['key'] = userSnap[0].key;
             })
         );
         this.subscriptions.push(
             this._usersRef.snapshotChanges().subscribe(usersSnap => {
-                console.log(usersSnap);
+                // console.log(usersSnap);
             })
         );
     }

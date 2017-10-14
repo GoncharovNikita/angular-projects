@@ -11,7 +11,7 @@ import { RefrigeratorService } from './refrigerator.service';
 })
 export class RefrigeratorsComponent implements OnInit {
     constructor(
-            private refService: RefrigeratorService
+            private rs: RefrigeratorService
     ) {}
 
     ngOnInit() {}

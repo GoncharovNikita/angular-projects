@@ -31,8 +31,12 @@ import { environment } from '../environments/environment';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'refrigerators',
     component: RefrigeratorsComponent
+  },
+  {
+    path: 'refrigerator/:id',
+    component: ProductsComponent
   },
   {
     path: 'login',

@@ -32,14 +32,13 @@ export class ProductService {
                 this.deleteSubscribtions();
             } else {
                 if (this.subscriptions.length === 0) {
-                    this.addSubscriptions();
+                    //
                 }
             }
         });
     }
 
     addSubscriptions() {
-        this._productsRef = this.afd.list(`${this.accService.userId}/products`);
         this.subscriptions.push(this._productsRef.snapshotChanges()
             .map(val => {
                 return(
@@ -57,6 +56,12 @@ export class ProductService {
                 this._selectedProduct = product;
             })
         );
+    }
+
+    setProductsPath(key: string) {
+        console.log('Key', key);
+        this._productsRef = this.afd.list(`refrigerators/${key}/products`);
+        this.addSubscriptions();
     }
 
     deleteSubscribtions() {
