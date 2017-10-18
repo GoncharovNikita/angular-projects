@@ -31,7 +31,7 @@ import { environment } from '../environments/environment';
 
 const routes: Routes = [
   {
-    path: 'refrigerators',
+    path: '',
     component: RefrigeratorsComponent
   },
   {

@@ -1,9 +1,9 @@
 <ul class="list-group" >
     <ng-container *ngFor="let product of products | async">
-        <a href="#" class="list-group-item"
-        (click)="select(product)"
+        <p class="list-group-item"
+        (click)="select(product); return;"
         [ngClass]=" {'active': selectedProduct === product } "
-        >{{ product.name }}</a>
+        >{{ product.name }}</p>
     </ng-container>
 </ul>
 
