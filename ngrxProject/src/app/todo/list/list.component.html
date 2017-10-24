@@ -1,0 +1,11 @@
+<ng-container *ngIf="(todos | async)?.length > 0; else noTodosForm">
+    <ul *ngFor="let todo of todos | async" >
+        <li> {{ todo.text }} </li>
+    </ul>
+</ng-container>
+
+<ng-template #noTodosForm>
+    <div>
+        No todos!
+    </div>
+</ng-template>
