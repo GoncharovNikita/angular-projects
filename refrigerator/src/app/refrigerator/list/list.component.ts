@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RefrigeratorService} from '../refrigerator.service';
+import { RefrigeratorService } from '../refrigerator.service';
 import { Router } from '@angular/router';
+import { AppState } from '../../app.state.class';
+import { Store } from '@ngrx/store';
+import { Refrigerator } from '../refrigerator';
+import { Observable } from 'rxjs/Observable';
+import { RefrigeratorActions } from '../refrigerator.actions';
 
 @Component({
     selector: 'app-list-refrigerators',
@@ -10,9 +15,12 @@ import { Router } from '@angular/router';
     ]
 })
 export class RefrigeratorsListComponent implements OnInit {
-
+    private refrigerators: Observable<Array<Refrigerator>>;
     constructor(
-        private rs: RefrigeratorService
+        private store: Store<AppState>
     ) {}
-    ngOnInit() {}
+    ngOnInit() {
+        this.refrigerators = this.store.select('refrigerators');
+        this.store.dispatch({ type: RefrigeratorActions.FETCH_REFRIGERATORS });
+    }
 }

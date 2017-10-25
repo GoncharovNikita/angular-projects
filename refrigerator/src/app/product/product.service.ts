@@ -3,7 +3,9 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
-import { IProduct } from './product';
+import { IProduct, Product } from './product';
+import { Store } from '@ngrx/store';
+import { AppState } from '../app.state.class';
 import {
     AngularFireDatabase,
     AngularFireList
@@ -23,16 +25,19 @@ export class ProductService {
     private subscriptions: Array<Subscription> = new Array();
     products: Subject<Array<IProduct>> = new Subject();
     selectedProduct: Subject<IProduct> = new Subject();
+    private __products: Observable<Product>;
 
     constructor(private http: Http,
         private afd: AngularFireDatabase,
-        private accService: AccountService) {
+        private accService: AccountService,
+        private store: Store<AppState>) {
         this.accService.authState.subscribe(state => {
             if (!state) {
                 this.deleteSubscribtions();
             } else {
                 if (this.subscriptions.length === 0) {
                     //
+                    // this.addSubscriptions();
                 }
             }
         });
@@ -54,12 +59,18 @@ export class ProductService {
             this.selectedProduct
             .subscribe(product => {
                 this._selectedProduct = product;
+            }),
+            this.__products.subscribe(newVal => {
+                console.log(newVal);
             })
         );
     }
 
+    getProducts() {
+        return this._productsRef.snapshotChanges();
+    }
+
     setProductsPath(key: string) {
-        console.log('Key', key);
         this._productsRef = this.afd.list(`refrigerators/${key}/products`);
         this.addSubscriptions();
     }

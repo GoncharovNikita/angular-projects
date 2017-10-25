@@ -1,6 +1,6 @@
 
 export interface IProduct {
-    key: string;
+    key?: string;
     name: string;
     created: string;
     shelfLife: string;
@@ -8,7 +8,7 @@ export interface IProduct {
 }
 
 export class Product implements IProduct {
-    key: string;
+    key?: string;
     name: string;
     created: string;
     shelfLife: string;

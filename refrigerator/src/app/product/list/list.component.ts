@@ -3,6 +3,9 @@ import { ProductService } from '../product.service';
 import { Product, IProduct } from '../product';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app.state.class';
+import { ProductActions } from '../product.actions';
 
 @Component({
     selector: 'app-product-list',
@@ -11,26 +14,22 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductListComponent implements OnInit {
     @Input()
     refrigeratorKey: string;
-    selectedProduct: IProduct;
+    selectedProduct: Observable<IProduct>;
     products: Observable<Array<IProduct>>;
     isProductsListEmpty = true;
-    constructor(private productService: ProductService,
-        private ar: ActivatedRoute) {}
+    constructor(
+        private productService: ProductService,
+        private ar: ActivatedRoute,
+        private store: Store<AppState>
+    ) {}
 
     ngOnInit() {
         this.ar.params.subscribe(p => {
             this.refrigeratorKey = p['id'];
         });
-        this.productService.setProductsPath(this.refrigeratorKey);
-        this.products = this.productService.products;
-        this.productService.selectedProduct
-            .subscribe(product => {
-                this.selectedProduct = product;
-            });
-        this.productService.products
-        .subscribe(products => {
-            this.isProductsListEmpty = products.length === 0;
-        });
+        this.products = this.store.select('products');
+        this.selectedProduct = this.store.select('selectedProduct');
+        this.store.dispatch({ type: ProductActions.FETCH_PRODUCTS });
     }
 
     select(product: IProduct) {

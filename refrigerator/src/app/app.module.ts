@@ -18,6 +18,10 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { RefrigeratorModule } from './refrigerator/refrigerator.module';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { ProductEffects } from './product/product.effects';
+import { RefrigeratorEffects } from './refrigerator/refrigerator.effects';
 
 // Services import
 import { ProductService } from './product/product.service';
@@ -25,6 +29,11 @@ import { AccountService } from './accounting/account.service';
 
 // Directives import
 import { RedOutlineDirective } from './red-outline.directive';
+
+// Functions import
+import { accountReducer } from './accounting/account.reducer';
+import { productsReducer } from './product/products.reducer';
+import { refrigeratorsReducer } from './refrigerator/refrigerators.reducer';
 
 // Environment
 import { environment } from '../environments/environment';
@@ -65,7 +74,16 @@ const routes: Routes = [
     ),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    StoreModule.forRoot({
+      account: accountReducer,
+      products: productsReducer,
+      refrigerators: refrigeratorsReducer
+    }),
+    EffectsModule.forRoot([
+      ProductEffects,
+      RefrigeratorEffects
+    ])
   ],
   providers: [
     ProductService,
