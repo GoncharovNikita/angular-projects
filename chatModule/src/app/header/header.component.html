@@ -2,7 +2,10 @@
   <span class="title">FlexChat</span>
   <div class="user-credentials" *ngIf="user | async; let user; else login" >
     <h2>{{ user.displayName }}</h2>
-    <img class="avatar" [src]="user.photoURL">
+    <img class="avatar" [src]="user.photoURL" (click)="triggerLogout()" >
+    <div class="logout" *ngIf="logoutTriggered" (click)="logout()" >
+      Logout
+    </div>
   </div>
   <ng-template #login>
     <span (click)="authClick()" >Login!</span>

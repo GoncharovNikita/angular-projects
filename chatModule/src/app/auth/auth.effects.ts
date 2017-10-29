@@ -33,4 +33,14 @@ export class AuthEffects {
         return Observable.of({ type: AuthActions.FETCH_SESSION_ERROR });
       });
     });
+
+  @Effect()
+  $logout = this.$action.ofType(AuthActions.LOGOUT)
+    .switchMap(() => {
+      return this.$as.$logout().switchMap(result => {
+        return Observable.of({ type: AuthActions.LOGOUT_SUCCESS });
+      }).catch(err => {
+        return Observable.of({ type: AuthActions.LOGOUT_ERROR });
+      });
+    });
 }

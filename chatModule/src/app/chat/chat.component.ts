@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { Chat } from './chat.class';
 import { AppState } from './../app.state.class';
@@ -20,6 +21,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   chat: Observable<Chat>;
   user: User;
   messageText: FormControl;
+  private subscriptions: Array<Subscription> = new Array();
   @ViewChild('messagesContainer')
   private messagesListRef: ElementRef;
 
@@ -55,17 +57,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             }
           });
       });
-    this.chat
-    .filter(chat => chat !== undefined)
-    .subscribe(val => {
-      console.log(val);
-    });
 
     this.messageText = new FormControl();
-  }
-
-  scrollListener(event) {
-    console.log(event);
   }
 
   sendMessage() {

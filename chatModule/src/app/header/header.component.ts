@@ -17,6 +17,7 @@ import 'rxjs/add/operator/filter';
 })
 export class HeaderComponent implements OnInit {
   user: Observable<User>;
+  logoutTriggered = false;
 
   constructor(
     private $store: Store<AppState>
@@ -28,5 +29,13 @@ export class HeaderComponent implements OnInit {
 
   authClick() {
     this.$store.dispatch({ type: AuthActions.AUTHENTICATE });
+  }
+
+  logout() {
+    this.$store.dispatch({ type: AuthActions.LOGOUT });
+  }
+
+  triggerLogout() {
+    this.logoutTriggered = !this.logoutTriggered;
   }
 }
