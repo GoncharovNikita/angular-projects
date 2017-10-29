@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase/app';
-import { User } from 'firebase';
+import { User } from 'firebase/auth';
 import { AccountService } from '../account.service';
 
 import { Observable } from 'rxjs/Observable';
@@ -23,7 +23,7 @@ export class AuthComponent implements OnInit {
     }
 
     auth() {
-        this.accService.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+        this.accService.authenticate();
     }
 
     logout() {

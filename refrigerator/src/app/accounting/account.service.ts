@@ -1,8 +1,9 @@
+import { firebaseSecret } from './../../environments/.secret';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import * as firebase from 'firebase';
-import { User } from 'firebase';
+import * as firebase from 'firebase/app';
+import { User } from 'firebase/auth';
 import { Auth } from 'firebase/auth';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -32,10 +33,10 @@ export class AccountService {
     get userId() {
         return this._userId;
     }
-    get auth() {
+    get auth(): Auth {
         return this._auth;
     }
-    get authState() {
+    get authState(): User {
         return this._authState;
     }
     get userRef() {
@@ -84,6 +85,10 @@ export class AccountService {
 
     updateUser(params: UserQuery) {
         this._userRef.update(this._userState['key'], params);
+    }
+
+    authenticate() {
+      this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
     }
 
     addSubscriptions(state: User) {

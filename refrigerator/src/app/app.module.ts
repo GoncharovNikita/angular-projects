@@ -1,3 +1,4 @@
+import { AccountingEffects } from './accounting/accounting.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -72,7 +73,7 @@ const routes: Routes = [
     RouterModule.forRoot(
       routes
     ),
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseSecret),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     StoreModule.forRoot({
@@ -82,7 +83,8 @@ const routes: Routes = [
     }),
     EffectsModule.forRoot([
       ProductEffects,
-      RefrigeratorEffects
+      RefrigeratorEffects,
+      AccountingEffects
     ])
   ],
   providers: [

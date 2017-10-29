@@ -1,9 +1,12 @@
 import { Store, Action } from '@ngrx/store';
 import { AppState } from '../app.state.class';
-import { AccountActions } from './account.actions';
+import { AccountActions, AccountAction } from './account.actions';
+import { Auth } from 'firebase/auth';
 
-export function accountReducer(state: AppState, action: Action) {
+export function accountReducer(state: Auth, action: AccountAction) {
     switch (action.type) {
-        default: return state;
+      case AccountActions.AUTHORIZE_SUCCESS:
+        return action.payload;
+      default: return state;
     }
 }
