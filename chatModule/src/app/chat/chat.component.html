@@ -1,0 +1,22 @@
+<div class="shell">
+  <div class="header">
+    <span *ngIf="(chat | async); let chat; else loading" >
+      Количество участников: {{ chat.members.length }}
+    </span>
+    <ng-template #loading >
+      Чат загружается...
+    </ng-template>
+  </div>
+  <div class="content" *ngIf="(chat | async); let chat" #messagesContainer >
+    <div class="messages-list" >
+      <ng-container *ngFor="let message of chat.messages" >
+          <div class="message" [ngClass]="{ 'from-user': message.author.uid === user.uid }" >
+            <span>{{ message.text }}</span>
+          </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="input-group">
+    <input [formControl]="messageText" (keyup.enter)="sendMessage()" >
+  </div>
+</div>

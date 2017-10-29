@@ -1,0 +1,16 @@
+export class AuthActions {
+  static AUTHENTICATE = 'AUTHENTICATE';
+  static AUTHENTICATE_SUCCESS = 'AUTHENTICATE_SUCCESS';
+  static AUTHENTICATE_ERROR = 'AUTHENTCATE_ERROR';
+  static LOGOUT = 'LOGOUT';
+  static LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+  static LOGOUT_ERROR = 'LOGOUT_ERROR';
+  static FETCH_SESSION = 'FETCH_SESSION';
+  static FETCH_SESSION_SUCCESS = 'FETCH_SESSION_SUCCESS';
+  static FETCH_SESSION_ERROR = 'FETCH_SESSION_ERROR';
+}
+
+export class AuthAction {
+  type: AuthActions;
+  payload?: any;
+}

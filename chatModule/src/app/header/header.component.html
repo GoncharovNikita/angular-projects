@@ -1,0 +1,10 @@
+<div class="header">
+  <span class="title">FlexChat</span>
+  <div class="user-credentials" *ngIf="user | async; let user; else login" >
+    <h2>{{ user.displayName }}</h2>
+    <img class="avatar" [src]="user.photoURL">
+  </div>
+  <ng-template #login>
+    <span (click)="authClick()" >Login!</span>
+  </ng-template>
+</div>
