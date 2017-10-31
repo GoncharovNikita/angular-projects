@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { RefrigeratorService } from '../refrigerator.service';
 import { Router } from '@angular/router';
 import { AppState } from '../../app.state.class';
@@ -14,7 +14,7 @@ import { RefrigeratorActions } from '../refrigerator.actions';
         './list.component.sass'
     ]
 })
-export class RefrigeratorsListComponent implements OnInit {
+export class RefrigeratorsListComponent implements OnInit, OnDestroy {
     private refrigerators: Observable<Array<Refrigerator>>;
     constructor(
         private store: Store<AppState>
@@ -22,5 +22,8 @@ export class RefrigeratorsListComponent implements OnInit {
     ngOnInit() {
         this.refrigerators = this.store.select('refrigerators');
         this.store.dispatch({ type: RefrigeratorActions.FETCH_REFRIGERATORS });
+    }
+    ngOnDestroy() {
+      this.refrigerators = undefined;
     }
 }

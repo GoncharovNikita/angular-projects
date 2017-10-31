@@ -1,9 +1,12 @@
+import { AccountActions } from './../account.actions';
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { User } from 'firebase/auth';
 import { AccountService } from '../account.service';
 
 import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../app.state.class';
 
 @Component({
     selector: 'app-auth',
@@ -14,19 +17,16 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AuthComponent implements OnInit {
     authState: Observable<User>;
-    constructor(private accService: AccountService) {}
+    constructor(private $store: Store<AppState>) {}
 
     ngOnInit() {
-        this.authState = this.accService.authState;
-        this.authState.subscribe(state => {
-        });
     }
 
     auth() {
-        this.accService.authenticate();
+        this.$store.dispatch({ type: AccountActions.AUTHORIZE });
     }
 
     logout() {
-        this.accService.auth.signOut();
+        this.$store.dispatch({ type: AccountActions.LOGOUT });
     }
 }

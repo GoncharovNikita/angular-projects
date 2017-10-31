@@ -1,3 +1,4 @@
+import { RefrigeratorEffects } from './refrigerator.effects';
 import { NgModule } from '@angular/core';
 import { RefrigeratorsComponent } from './refrigerators.component';
 import { RefrigeratorService } from './refrigerator.service';
@@ -8,6 +9,7 @@ import { RouterModule } from '@angular/router';
 
 // Modules
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
     declarations: [
@@ -19,7 +21,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
         FormsModule,
         ReactiveFormsModule,
         CommonModule,
-        RouterModule
+        RouterModule,
+        EffectsModule.run(RefrigeratorEffects)
     ],
     exports: [
         RefrigeratorsComponent

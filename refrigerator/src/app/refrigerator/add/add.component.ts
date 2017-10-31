@@ -1,7 +1,10 @@
+import { RefrigeratorActions } from './../refrigerator.actions';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { IRefrigerator, Refrigerator } from '../refrigerator';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RefrigeratorService } from '../refrigerator.service';
+import { AppState } from '../../app.state.class';
 
 @Component({
     selector: 'app-add-refrigerator',
@@ -9,11 +12,11 @@ import { RefrigeratorService } from '../refrigerator.service';
     styleUrls: [ './add.component.sass' ]
 })
 export class AddRefrigeratorComponent implements OnInit {
-    private fGroup: FormGroup;
+    fGroup: FormGroup;
 
     constructor(
         private fb: FormBuilder,
-        private rs: RefrigeratorService
+        private $store: Store<AppState>
     ) {}
 
     ngOnInit() {
@@ -24,6 +27,6 @@ export class AddRefrigeratorComponent implements OnInit {
 
     addRefrigerator(ref: IRefrigerator) {
         ref.users = new Array();
-        this.rs.addRefrigerator(ref);
+        this.$store.dispatch({ type: RefrigeratorActions.ADD_REFRIGERATOR, payload: ref });
     }
 }

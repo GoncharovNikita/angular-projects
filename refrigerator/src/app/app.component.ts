@@ -1,10 +1,14 @@
+import { AccountActions } from './accounting/account.actions';
+import { AppState } from './app.state.class';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './accounting/account.service';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/switchMap';
-import { User } from 'firebase';
+import 'rxjs/add/operator/distinct';
+import { User } from 'firebase/Auth';
 import { Router, NavigationStart } from '@angular/router';
 
 @Component({
@@ -15,27 +19,32 @@ import { Router, NavigationStart } from '@angular/router';
 export class AppComponent implements OnInit {
   authState: Observable<User>;
   islogged = false;
-  constructor(public accService: AccountService,
-    private router: Router) {}
+  constructor(
+    public accService: AccountService,
+    private router: Router,
+    private $store: Store<AppState>
+  ) {}
 
   ngOnInit() {
     this.authState = this.accService.authState;
     this.addSubscriptions();
+    console.log('pre fetch session');
+    this.$store.dispatch({ type: AccountActions.FETCH_SESSION });
   }
 
   addSubscriptions() {
-    this.accService.isLogged.subscribe(isLogged => {
-      this.islogged = isLogged;
-      if (!isLogged && this.router.url !== '/login') {
-        this.router.navigate(['login']); return;
-      }
-      if (isLogged && this.router.url === '/login') {
-        this.router.navigate(['']); return;
-      }
-    });
+    this.$store.select('user')
+      .subscribe(user => {
+        console.log(user);
+        if (user === undefined) {
+          this.router.navigate(['/login']);
+        } else {
+          this.router.navigate(['/refrigerators']);
+        }
+      });
   }
 
   logout() {
-    this.accService.auth.signOut();
+    this.$store.dispatch({ type: AccountActions.LOGOUT });
   }
 }

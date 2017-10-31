@@ -87,8 +87,16 @@ export class AccountService {
         this._userRef.update(this._userState['key'], params);
     }
 
-    authenticate() {
-      this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    authenticate(): Observable<Auth> {
+      return Observable.fromPromise(this.angularFireAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()));
+    }
+
+    logout(): Observable<Auth> {
+      return Observable.fromPromise(this.angularFireAuth.auth.signOut());
+    }
+
+    fetchSession(): Observable<Auth> {
+      return this.angularFireAuth.authState;
     }
 
     addSubscriptions(state: User) {

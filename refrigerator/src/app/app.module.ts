@@ -41,7 +41,7 @@ import { environment } from '../environments/environment';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'refrigerators',
     component: RefrigeratorsComponent
   },
   {
@@ -51,6 +51,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: '**',
+    redirectTo: '/refrigerators'
   }
 ];
 
@@ -76,16 +80,12 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebaseSecret),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    StoreModule.forRoot({
-      account: accountReducer,
+    StoreModule.provideStore({
+      user: accountReducer,
       products: productsReducer,
       refrigerators: refrigeratorsReducer
     }),
-    EffectsModule.forRoot([
-      ProductEffects,
-      RefrigeratorEffects,
-      AccountingEffects
-    ])
+    EffectsModule.run(AccountingEffects)
   ],
   providers: [
     ProductService,

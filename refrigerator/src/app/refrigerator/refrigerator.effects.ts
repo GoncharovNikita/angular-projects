@@ -17,11 +17,22 @@ export class RefrigeratorEffects {
     fetchRefrigerators$ = this.action$
         .ofType(RefrigeratorActions.FETCH_REFRIGERATORS)
         .switchMap(() => {
-            return this.refService.refrigerators.asObservable()
+            return this.refService.fetchRefrigerators()
                 .switchMap(refrigerators => {
                     return Observable.of({ type: RefrigeratorActions.FETCH_REFRIGERATORS_SUCCESS, payload: refrigerators });
                 }).catch(err => {
                     return Observable.of({ type: RefrigeratorActions.FETCH_REFRIGERATORS_ERROR, payload: err });
                 });
+        });
+
+    @Effect()
+    $addRefrigerator = this.action$.ofType(RefrigeratorActions.ADD_REFRIGERATOR)
+        .switchMap((action) => {
+          return this.refService.addRefrigerator(action.payload)
+            .switchMap(success => {
+              return Observable.of({ type: RefrigeratorActions.ADD_REFRIGERATOR_SUCCESS, payload: success });
+            }).catch(err => {
+              return Observable.of({ type: RefrigeratorActions.ADD_REFRIGERATOR_ERROR, payload: err });
+            });
         });
 }

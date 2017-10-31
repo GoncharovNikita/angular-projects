@@ -1,3 +1,5 @@
+import { AppState } from './../app.state.class';
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { IRefrigerator, Refrigerator } from './refrigerator';
 import {
@@ -9,10 +11,13 @@ import { RefUser, IRefUser } from '../accounting/refrigerator.user';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { AService } from '../abstract/service.abstract';
+import { Store } from '@ngrx/store';
+import { User } from '../accounting/user/user.class';
 
 @Injectable()
 export class RefrigeratorService extends AService {
     private _refrigeratorsRef: AngularFireList<IRefrigerator>;
+    private _refrigeratorsObservable: Observable<Array<Refrigerator>>;
     private _refrigeratorsIds: Object;
     private _refrigerators: Subject<Array<IRefrigerator>> = new Subject();
     subscriptions: Array<Subscription> = new Array();
@@ -26,53 +31,31 @@ export class RefrigeratorService extends AService {
 
     constructor(
         private afd: AngularFireDatabase,
-        private accService: AccountService
+        private accService: AccountService,
+        private $store: Store<AppState>
     ) {
         super();
-        this.accService.state
-            .map(s => s.userRef)
-            .subscribe(userRef => {
-                if (userRef) {
-                    userRef.valueChanges()
-                    .map(s => <IRefUser>s[0])
-                    .subscribe(snap => {
-                        this._refrigeratorsRef = this.afd.list('refrigerators');
-                        this._refrigeratorsIds = snap.refrigeratorsIds;
-                        if (this.subscriptions.length === 0) { this.addSubscriptions(); }
-                    });
-                } else {
-                    this._refrigeratorsIds = undefined;
-                    this.deleteSubscriptions();
-                }
-            });
+        this._refrigeratorsObservable = this.$store.select('user')
+          .map(user => <User>user)
+          .switchMap(user => {
+            return this.afd.list('/refrigerators', ref => {
+              return ref.orderByKey().equalTo('-KwQnqq-3cKccBVtF-67');
+            }).valueChanges();
+          });
+    }
+
+    fetchRefrigerators(): Observable<Array<Refrigerator>> {
+      return this._refrigeratorsObservable;
     }
 
     addSubscriptions() {
-        this.subscriptions.push(
-            this._refrigeratorsRef.snapshotChanges()
-                .map(r => {
-                    return (
-                        r.map(changes => {
-                            return (
-                                <IRefrigerator>({ id: changes.payload.key, ...changes.payload.val() })
-                            );
-                        })
-                    );
-                })
-                .subscribe(refs => {
-                    this.accService.updateUser({
-                        refrigeratorsIds: refs.map(r => r.id)
-                    });
-                    this._refrigerators.next(refs);
-                })
-        );
     }
 
-    addRefrigerator(ref: IRefrigerator) {
+    addRefrigerator(ref: IRefrigerator): Observable<Refrigerator> {
         const index = ref.users[this.accService.userState.email];
         if (!index) {
             ref.users[this.accService.userState.uid] = true;
         }
-        this._refrigeratorsRef.push(ref);
+        return Observable.fromPromise(this._refrigeratorsRef.push(ref));
     }
 }
