@@ -1,3 +1,4 @@
+import { AuthGuard } from './accounting/auth.guard';
 import { AccountingEffects } from './accounting/accounting.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -42,11 +43,13 @@ import { environment } from '../environments/environment';
 const routes: Routes = [
   {
     path: 'refrigerators',
-    component: RefrigeratorsComponent
+    component: RefrigeratorsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'refrigerator/:id',
-    component: ProductsComponent
+    component: ProductsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -54,7 +57,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '/refrigerators'
+    redirectTo: '/refrigerators',
+    canActivate: [AuthGuard]
   }
 ];
 
@@ -75,7 +79,10 @@ const routes: Routes = [
     ProductModule,
     RefrigeratorModule,
     RouterModule.forRoot(
-      routes
+      routes,
+      {
+        enableTracing: true
+      }
     ),
     AngularFireModule.initializeApp(environment.firebaseSecret),
     AngularFireDatabaseModule,
@@ -89,7 +96,8 @@ const routes: Routes = [
   ],
   providers: [
     ProductService,
-    AccountService
+    AccountService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

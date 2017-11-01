@@ -13,6 +13,7 @@ import { Subject } from 'rxjs/Subject';
 import { AService } from '../abstract/service.abstract';
 import { Store } from '@ngrx/store';
 import { User } from '../accounting/user/user.class';
+import 'rxjs/add/operator/concat';
 
 @Injectable()
 export class RefrigeratorService extends AService {
@@ -35,27 +36,35 @@ export class RefrigeratorService extends AService {
         private $store: Store<AppState>
     ) {
         super();
-        this._refrigeratorsObservable = this.$store.select('user')
-          .map(user => <User>user)
-          .switchMap(user => {
-            return this.afd.list('/refrigerators', ref => {
-              return ref.orderByKey().equalTo('-KwQnqq-3cKccBVtF-67');
-            }).valueChanges();
-          });
+        this.subscriptions.push(
+          this.$store.select('user')
+            .map(value => <User>value)
+            .subscribe(user => {
+              if (user) {
+                this._refrigeratorsRef = this.afd.list(`/refrigerators/${user.uid}`);
+              } else {
+                this._refrigeratorsRef = undefined;
+              }
+            })
+        );
     }
 
     fetchRefrigerators(): Observable<Array<Refrigerator>> {
-      return this._refrigeratorsObservable;
+      return this.$store.select('user')
+        .map(user => <User>user)
+        .switchMap(user => {
+          if (user) {
+            return this.afd.list(`/refrigerators/${user.uid}`).valueChanges();
+          } else {
+            return Observable.of(undefined);
+          }
+        });
     }
 
     addSubscriptions() {
     }
 
     addRefrigerator(ref: IRefrigerator): Observable<Refrigerator> {
-        const index = ref.users[this.accService.userState.email];
-        if (!index) {
-            ref.users[this.accService.userState.uid] = true;
-        }
-        return Observable.fromPromise(this._refrigeratorsRef.push(ref));
+      return Observable.fromPromise(this._refrigeratorsRef.push(ref));
     }
 }

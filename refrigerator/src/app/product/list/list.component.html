@@ -1,7 +1,7 @@
 <ul class="list-group" >
     <ng-container *ngFor="let product of products | async">
         <p class="list-group-item"
-        (click)="select(product); return;"
+        (click)="select(product)"
         [ngClass]=" {'active': (selectedProduct | async ) === product } "
         >{{ product.name }}</p>
     </ng-container>

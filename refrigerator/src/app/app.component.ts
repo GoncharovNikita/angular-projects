@@ -28,20 +28,10 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authState = this.accService.authState;
     this.addSubscriptions();
-    console.log('pre fetch session');
     this.$store.dispatch({ type: AccountActions.FETCH_SESSION });
   }
 
   addSubscriptions() {
-    this.$store.select('user')
-      .subscribe(user => {
-        console.log(user);
-        if (user === undefined) {
-          this.router.navigate(['/login']);
-        } else {
-          this.router.navigate(['/refrigerators']);
-        }
-      });
   }
 
   logout() {

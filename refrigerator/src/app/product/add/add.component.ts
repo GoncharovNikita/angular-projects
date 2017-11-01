@@ -23,7 +23,7 @@ export class AddProductComponent implements OnInit {
     }
 
     getDayRelativeToNow(move: number = 0) {
-        return `${new Date().getFullYear()}-${ new Date().getMonth() + 1 }-${new Date().getDate() + move}`;
+        return new Date(new Date().getTime() + move * 100000000);
     }
     addProduct(product: IProduct) {
         if (!this.fGroup.valid) { return; }

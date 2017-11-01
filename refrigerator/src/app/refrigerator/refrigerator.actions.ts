@@ -5,6 +5,7 @@ export class RefrigeratorActions {
     static ADD_REFRIGERATOR = 'ADD_REFRIGERATOR';
     static ADD_REFRIGERATOR_SUCCESS = 'ADD_REFRIGERATOR_SUCCESS';
     static ADD_REFRIGERATOR_ERROR = 'ADD_REFRIGERATOR_ERROR';
+    static SELECT_REFRIGERATOR = 'SELECT_REFRIGERATOR';
 }
 export class RefrigeratorAction {
     type: RefrigeratorActions;

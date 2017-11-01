@@ -5,7 +5,8 @@ export function refrigeratorsReducer(state: Refrigerator[] = [], action: Refrige
     console.log(action);
     switch (action.type) {
         case RefrigeratorActions.FETCH_REFRIGERATORS_SUCCESS:
-            return [...action.payload];
+          console.log(action.payload);
+          return [...action.payload];
         case RefrigeratorActions.FETCH_REFRIGERATORS_ERROR:
             console.log(action.payload);
             return [];

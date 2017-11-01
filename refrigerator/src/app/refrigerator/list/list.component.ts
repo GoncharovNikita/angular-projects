@@ -15,7 +15,7 @@ import { RefrigeratorActions } from '../refrigerator.actions';
     ]
 })
 export class RefrigeratorsListComponent implements OnInit, OnDestroy {
-    private refrigerators: Observable<Array<Refrigerator>>;
+    refrigerators: Observable<Array<Refrigerator>>;
     constructor(
         private store: Store<AppState>
     ) {}

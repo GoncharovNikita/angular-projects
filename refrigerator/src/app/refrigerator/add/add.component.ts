@@ -26,7 +26,8 @@ export class AddRefrigeratorComponent implements OnInit {
     }
 
     addRefrigerator(ref: IRefrigerator) {
-        ref.users = new Array();
-        this.$store.dispatch({ type: RefrigeratorActions.ADD_REFRIGERATOR, payload: ref });
+      const newRefrigerator = new Refrigerator(ref.id, ref.name, ref.products, ref.archivedProducts);
+      this.$store.dispatch({ type: RefrigeratorActions.ADD_REFRIGERATOR, payload: newRefrigerator });
+      this.fGroup.reset();
     }
 }

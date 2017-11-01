@@ -5,7 +5,7 @@ import { Auth } from 'firebase/Auth';
 
 export class AppState {
     selectedRefrigerator: Refrigerator;
-    selectedProduct: Product ;
+    selectedProduct: Product;
     refrigerators: Array<Refrigerator>;
     products: Array<Product>;
     auth: Auth;

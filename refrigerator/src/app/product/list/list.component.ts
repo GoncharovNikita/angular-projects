@@ -20,19 +20,20 @@ export class ProductListComponent implements OnInit {
     constructor(
         private productService: ProductService,
         private ar: ActivatedRoute,
-        private store: Store<AppState>
+        private $store: Store<AppState>
     ) {}
 
     ngOnInit() {
         this.ar.params.subscribe(p => {
             this.refrigeratorKey = p['id'];
         });
-        this.products = this.store.select('products');
-        this.selectedProduct = this.store.select('selectedProduct');
-        this.store.dispatch({ type: ProductActions.FETCH_PRODUCTS });
+        this.products = this.$store.select('products');
+        this.selectedProduct = this.$store.select('selectedProduct');
+        this.$store.dispatch({ type: ProductActions.FETCH_PRODUCTS });
     }
 
     select(product: IProduct) {
         this.productService.selectProduct(product);
+        return false;
     }
 }
