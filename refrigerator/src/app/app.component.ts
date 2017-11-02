@@ -10,6 +10,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/distinct';
 import { User } from 'firebase/Auth';
 import { Router, NavigationStart } from '@angular/router';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(
     public accService: AccountService,
     private router: Router,
-    private $store: Store<AppState>
+    private $store: Store<AppState>,
+    private $appService: AppService
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit {
   }
 
   addSubscriptions() {
+    this.$appService.watchForLoginConponent();
   }
 
   logout() {

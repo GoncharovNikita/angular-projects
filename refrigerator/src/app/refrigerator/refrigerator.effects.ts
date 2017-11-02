@@ -19,7 +19,11 @@ export class RefrigeratorEffects {
         .switchMap(() => {
             return this.refService.fetchRefrigerators()
                 .switchMap(refrigerators => {
-                    return Observable.of({ type: RefrigeratorActions.FETCH_REFRIGERATORS_SUCCESS, payload: refrigerators });
+                    if (refrigerators) {
+                      return Observable.of({ type: RefrigeratorActions.FETCH_REFRIGERATORS_SUCCESS, payload: refrigerators });
+                    } else {
+                      return Observable.of({ type: RefrigeratorActions.FETCH_REFRIGERATORS_ERROR });
+                    }
                 }).catch(err => {
                     return Observable.of({ type: RefrigeratorActions.FETCH_REFRIGERATORS_ERROR, payload: err });
                 });
