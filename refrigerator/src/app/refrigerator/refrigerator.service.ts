@@ -14,20 +14,17 @@ import { AService } from '../abstract/service.abstract';
 import { Store } from '@ngrx/store';
 import { User } from '../accounting/user/user.class';
 import 'rxjs/add/operator/concat';
+import 'rxjs/add/operator/merge';
 
 @Injectable()
 export class RefrigeratorService extends AService {
     private _refrigeratorsRef: AngularFireList<IRefrigerator>;
     private _refrigeratorsObservable: Observable<Array<Refrigerator>>;
     private _refrigeratorsIds: Object;
-    private _refrigerators: Subject<Array<IRefrigerator>> = new Subject();
     subscriptions: Array<Subscription> = new Array();
 
     get refrigeratorsIds() {
         return this._refrigeratorsIds;
-    }
-    get refrigerators() {
-        return this._refrigerators;
     }
 
     constructor(
@@ -45,7 +42,7 @@ export class RefrigeratorService extends AService {
               } else {
                 this._refrigeratorsRef = undefined;
               }
-            })
+            }),
         );
     }
 
@@ -54,7 +51,19 @@ export class RefrigeratorService extends AService {
         .map(user => <User>user)
         .switchMap(user => {
           if (user) {
-            return this.afd.list(`/refrigerators/${user.uid}`).valueChanges();
+            return Observable.merge(
+              this._refrigeratorsRef.snapshotChanges(),
+              this._refrigeratorsRef.valueChanges()
+            ).pairwise()
+              .filter(_ => _[0][0]['type'] === 'child_added')
+              .map(_ => {
+                const snap: Array<Object> = _[0];
+                const refs = _[1];
+                snap.forEach((s, k) => {
+                  refs[k]['id'] = s['key'];
+                });
+                return refs;
+              });
           } else {
             return Observable.of(undefined);
           }
